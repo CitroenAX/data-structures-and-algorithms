@@ -1,14 +1,7 @@
-"""Count paths to level n using jumps of size a or b."""
+# jumps.py
 
 
-def jumps(n: int, a: int, b: int) -> int:
-    """Return the number of ways to reach level n.
-
-    Let ways[level] count paths to that level. The last jump must be either
-    a or b levels, so ways[level] = ways[level - a] + ways[level - b],
-    ignoring terms whose indices are negative. Each level is computed once,
-    giving Theta(n) time and O(n) space.
-    """
+def jumps(n, a, b):
     ways = [0] * (n + 1)
     ways[0] = 1
 
@@ -22,4 +15,8 @@ def jumps(n: int, a: int, b: int) -> int:
 
 
 if __name__ == "__main__":
-    print(jumps(8, 2, 3))  # 4
+    print(jumps(4, 1, 2))
+    print(jumps(8, 2, 3))
+    print(jumps(11, 6, 7))
+    print(jumps(30, 3, 5))
+    print(jumps(100, 4, 5))
