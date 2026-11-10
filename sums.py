@@ -2,12 +2,26 @@
 
 
 def sums(items):
-    reachable = {0}
+    # reachable[total] is True if some of the items can make that total.
+    maximum_sum = 0
+    for item in items:
+        maximum_sum += item
+
+    reachable = [False] * (maximum_sum + 1)
+    reachable[0] = True
 
     for item in items:
-        reachable.update(total + item for total in tuple(reachable))
+        # Go downward so each item is used at most once.
+        for total in range(maximum_sum, item - 1, -1):
+            if reachable[total - item]:
+                reachable[total] = True
 
-    return len(reachable) - 1
+    count = 0
+    for total in range(1, maximum_sum + 1):
+        if reachable[total]:
+            count += 1
+
+    return count
 
 
 if __name__ == "__main__":
