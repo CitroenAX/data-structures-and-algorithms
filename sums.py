@@ -7,7 +7,11 @@ def sums(items):
     for item in items:
         maximum_sum += item
 
+    # Make one slot for every total from 0 to maximum_sum.
+    # Initially, no total has been made, so every slot is False.
     reachable = [False] * (maximum_sum + 1)
+
+    # The total 0 is possible by choosing no items.
     reachable[0] = True
 
     for item in items:
