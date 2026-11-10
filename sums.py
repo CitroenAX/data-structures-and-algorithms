@@ -2,28 +2,37 @@
 
 
 def sums(items):
-    # can_make_sum[total] is True if some items can make that total.
     maximum_sum = 0
     for item in items:
         maximum_sum += item
 
-    # Create one entry for each possible total, from 0 to maximum_sum.
-    can_make_sum = []
-    for total in range(maximum_sum + 1):
-        can_make_sum.append(False)
+    # possible_sums[i][total] tells whether total can be made
+    # using only the first i items.
+    possible_sums = []
+    for item_count in range(len(items) + 1):
+        row = []
+        for total in range(maximum_sum + 1):
+            row.append(False)
+        possible_sums.append(row)
 
-    # Choosing no items makes a total of 0.
-    can_make_sum[0] = True
+    # Using no items, only a total of 0 is possible.
+    possible_sums[0][0] = True
 
-    for item in items:
-        # Go downward so each item is used at most once.
-        for total in range(maximum_sum, item - 1, -1):
-            if can_make_sum[total - item]:
-                can_make_sum[total] = True
+    for item_count in range(1, len(items) + 1):
+        item = items[item_count - 1]
+
+        for total in range(maximum_sum + 1):
+            # First, try making this total without the current item.
+            possible_sums[item_count][total] = possible_sums[item_count - 1][total]
+
+            # Then, try making it with the current item.
+            if total >= item:
+                if possible_sums[item_count - 1][total - item]:
+                    possible_sums[item_count][total] = True
 
     count = 0
     for total in range(1, maximum_sum + 1):
-        if can_make_sum[total]:
+        if possible_sums[len(items)][total]:
             count += 1
 
     return count
